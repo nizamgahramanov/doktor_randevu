@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "883779339266",
+    "project_id": "doktor-randevu-e2034",
+    "storage_bucket": "doktor-randevu-e2034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883779339266:android:961edf82b862cf0504931b",
+        "android_client_info": {
+          "package_name": "az.doktor_randevu.doktor_randevu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASf1w5sln5-J00zRNCPRDVY-ChQCkQfuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
