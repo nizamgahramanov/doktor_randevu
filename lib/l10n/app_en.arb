@@ -54,5 +54,12 @@
 "noBooking":"Görüş təyin olunmayıbdır.",
 "noClient":"Pasient əlavə olunmayıbdır.",
 "bookInfo":"Randevu məlumantı",
-"bookCreatedPushNotificationHeading":"Yeni randevu"
+"bookCreatedPushNotificationHeading":"Yeni randevu",
+"profil":"Profil",
+"profileTitle":"Digər",
+"profilePhoto":"Profil şəkli",
+"logout":"Çıxış et",
+"logoutAlertTitle":"Çıxış etməyə əminsiniz?",
+"logoutAlertDescription":"Siz hesabınızdan çıxış etdikdən sonra yenidən daxil olmalı olacaqsınız",
+"reject":"İmtina et"
 }

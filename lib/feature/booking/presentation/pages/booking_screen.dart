@@ -151,6 +151,7 @@ class _BookingScreenState extends State<BookingScreen> {
           onTap: () {
             Navigator.pushNamed(context, Screens.conclusion,
                 arguments: Conclusion(
+                  bookingId: bookingInfo.id,
                   clientName: bookingInfo.clientName,
                   clientPhone: bookingInfo.clientPhone,
                   serviceName: bookingInfo.serviceName,

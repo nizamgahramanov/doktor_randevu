@@ -1,4 +1,5 @@
 class BookingInfo {
+  int id;
   String? clientName;
   String? clientPhone;
   String? clientNote;
@@ -11,6 +12,7 @@ class BookingInfo {
 
 
   BookingInfo({
+    required this.id,
     this.clientName,
     this.clientPhone,
     this.clientNote,

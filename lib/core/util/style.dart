@@ -32,10 +32,11 @@ class Style implements MainStyle {
         return const Color(0XFFFF3B30);
       case 'black':
         return Colors.black;
-      case 'grey':
-        return const Color.fromRGBO(214,214,214 ,1);
+      case 'light_grey':
+        return const Color(0XFFF9F9F9);
       case "carousel_active_indicator":
         return const Color.fromRGBO(51,51,51 ,1);
+        //f9f9f9
       case 'white':
         return Colors.white;
       case 'transparent':
@@ -44,8 +45,8 @@ class Style implements MainStyle {
         return const Color.fromRGBO(147,147,147, 1);
       case "divider":
         return const Color.fromRGBO(181,181,181, 1);
-      case "mainColor":
-        return const Color.fromRGBO(103,166,67, 1);
+      case "red":
+        return const Color(0XFFFF3B30);
       case "product_bg":
         return const Color.fromRGBO(245,245,245, 1);
       case "tile_line":

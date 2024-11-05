@@ -4,8 +4,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final LoadBooking loadBooking;
   final CreateBooking bookCreating;
   final SendPushNotification sendPushNotification;
-
-  BookingBloc({required this.loadBooking, required this.bookCreating, required this.sendPushNotification}) : super(BookingState()) {
+  final CancelBooking cancelBooking;
+  BookingBloc({required this.loadBooking, required this.bookCreating, required this.sendPushNotification, required this.cancelBooking}) : super(BookingState()) {
     on<LoadBookingEvent>(_loadBooking);
     on<ToggleCalendarEvent>(_toggleCalendar);
     on<DaySelectedEvent>(_daySelected);
@@ -44,6 +44,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         String formattedStartTime = DateFormat('HH:mm').format(parsedStartDatetime);
         String formattedEndTime = DateFormat('HH:mm').format(endDatetime);
         BookingInfo bookingInfo = BookingInfo(
+          id: booking.id,
           clientName: booking.client?.name,
           clientPhone: booking.client?.phone,
           clientNote: booking.client?.address1,

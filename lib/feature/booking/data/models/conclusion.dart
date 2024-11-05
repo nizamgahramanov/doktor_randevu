@@ -1,4 +1,5 @@
 class Conclusion {
+  int? bookingId;
   int? clientId;
   int? providerId;
   String? providerEmail;
@@ -18,6 +19,7 @@ class Conclusion {
   bool isBookInfo;
 
   Conclusion({
+    this.bookingId,
     this.clientId,
     this.providerId,
     this.providerEmail,

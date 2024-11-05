@@ -14,7 +14,7 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   @override
   Future<ApiResponse> getService(ServiceParams params) async {
     final ApiResponse response = await ApiClient().getRequest(
-      Urls.serviceList,
+      Urls.service,
       fromJson: (json) => MainModel<ServiceModel>.fromJson(
         json,
         (itemJson) => ServiceModel.fromJson(itemJson),

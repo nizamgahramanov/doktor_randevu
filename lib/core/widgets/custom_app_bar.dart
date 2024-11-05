@@ -7,8 +7,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget title;
   final List<Widget>? actionButton;
   final bool showBackButton;
-
-  CustomAppBar({required this.title, this.showBackButton = false, this.actionButton});
+  final bool centerTitle;
+  CustomAppBar({required this.title, this.showBackButton = false, this.actionButton,this.centerTitle = true });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),*/
-      centerTitle: true,
+      centerTitle: centerTitle,
       actions: actionButton,
       elevation: 2.0,
       shadowColor: Colors.grey.withOpacity(0.5),

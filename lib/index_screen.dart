@@ -8,6 +8,7 @@ import 'package:doktor_randevu/feature/booking/data/models/conclusion.dart';
 import 'package:doktor_randevu/feature/booking/presentation/pages/booking_screen.dart';
 import 'package:doktor_randevu/feature/client/presentation/pages/client_screen.dart';
 import 'package:doktor_randevu/feature/dashboard/dashboard_screen.dart';
+import 'package:doktor_randevu/feature/setting/presentation/pages/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,6 +38,7 @@ class _IndexScreenState extends State<IndexScreen> {
     const DashboardScreen(),
     const BookingScreen(),
     const ClientScreen(showArrowButton:false, showContinueButton:false),
+    const SettingScreen(),
   ];
 
   @override
@@ -92,6 +94,7 @@ class _IndexScreenState extends State<IndexScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _style.color(color: 'main_color'),
         unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -122,6 +125,16 @@ class _IndexScreenState extends State<IndexScreen> {
               ),
             ),
             label: AppLocalizations.of(context)!.patient,
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              Assets.more,
+              colorFilter: ColorFilter.mode(
+                _style.color(color: selectedIndex == 3 ? 'main_color' : 'grey_text_color'),
+                BlendMode.srcIn,
+              ),
+            ),
+            label: AppLocalizations.of(context)!.profil,
           ),
         ],
       ),

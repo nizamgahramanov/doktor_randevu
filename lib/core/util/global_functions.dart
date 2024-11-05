@@ -14,17 +14,17 @@ class GlobalFunctions {
 
   static GlobalFunctions get instance => _instance;
 
-  Future<void> showInfoDialog(
+  Future<void> showCloseDialog(
       {required String title,
       String? description,
-      required String svgPath,
+        String? svgPath,
       required Color buttonBackground,
       VoidCallback? onButtonPressed, required BuildContext context}) async {
     final Style _style = sl<Style>();
     return await showDialog(
       context: context,
       builder: (_) => SimpleDialog(
-        backgroundColor:_style.color(color: 'white'),
+        backgroundColor:_style.color(color: 'main_grey_color'),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(15.0),
@@ -32,22 +32,27 @@ class GlobalFunctions {
         ),
         title: Column(
           children: [
-            Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _style.color(color: 'main_grey_color'),
-              ),
-              child: SvgPicture.asset(
-                svgPath,
-              ),
+            if(svgPath!=null)
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _style.color(color: 'white'),
+                  ),
+                  child: SvgPicture.asset(
+                    svgPath,
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
-            const SizedBox(height: 20),
             Text(
               title,
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontSize: 17,
+                fontWeight: FontWeight.w400,
                 fontFamily: 'PublicSans',
                 color: _style.color(
                   color: 'main_text_color',
@@ -65,7 +70,7 @@ class GlobalFunctions {
                       fontSize: 14,
                       fontFamily: 'PublicSans',
                       color: _style.color(
-                        color: 'grey_text_color',
+                        color: 'secondary_grey_color',
                       ),
                     ),
                   ),
@@ -95,6 +100,121 @@ class GlobalFunctions {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Future<void> showAlertDialog(
+      {required String title,
+        String? description,
+        String? svgPath,
+        required Color buttonBackground,
+        VoidCallback? onFirstButtonPressed,VoidCallback? onSecondButtonPressed, required BuildContext context}) async {
+    final Style _style = sl<Style>();
+    return await showDialog(
+      context: context,
+      builder: (_) => SimpleDialog(
+        backgroundColor:_style.color(color: 'main_grey_color'),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(15.0),
+          ),
+        ),
+        title: Column(
+          children: [
+            if(svgPath!=null)
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _style.color(color: 'white'),
+                    ),
+                    child: SvgPicture.asset(
+                      svgPath,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'PublicSans',
+                color: _style.color(
+                  color: 'main_text_color',
+                ),
+              ),
+            ),
+            if (description != null)
+              Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'PublicSans',
+                      color: _style.color(
+                        color: 'secondary_grey_color',
+                      ),
+                    ),
+                  ),
+                  // const SizedBox(height: 10),
+                ],
+              ),
+          ],
+        ),
+        children: [
+          Column(children: [
+            const Divider(height: 1,thickness: 1,),
+            InkWell(
+              onTap: onFirstButtonPressed,
+              child: SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      AppLocalizations.of(context)!.logout,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'PublicSans',
+                        color: _style.color(color: 'red'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Divider(height: 1,thickness: 1),
+            InkWell(
+              onTap: onSecondButtonPressed,
+              child: SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      AppLocalizations.of(context)!.reject,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'PublicSans',
+                        color: _style.color(color: 'main_text_color'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],)
         ],
       ),
     );

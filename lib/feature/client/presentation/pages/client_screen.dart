@@ -45,6 +45,7 @@ class _ClientScreenState extends State<ClientScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("Build method called ");
     return  Scaffold(
         backgroundColor: Colors.white,
         appBar: CustomAppBar(
@@ -82,7 +83,7 @@ class _ClientScreenState extends State<ClientScreen> {
         ),
         body: SafeArea(
           child: BlocProvider(
-            create: (context) => sl<ClientBloc>()..add(LoadClientEvent()),
+            create: (context) => clientBloc..add(LoadClientEvent()),
             child: BlocListener<ClientBloc, ClientState>(
               listener: (context, state) {
                 if (state.pageStatus is DataLoaded && state.apiResponse!.status == ApiResult.Error && state.apiResponse!.data is ErrorResponse) {
@@ -93,6 +94,8 @@ class _ClientScreenState extends State<ClientScreen> {
                 }
               },
               child: BlocBuilder<ClientBloc, ClientState>(builder: (context, state) {
+                print(state.pageStatus);
+                print("BlocBuilder");
                 if (state.pageStatus is Initial || state.pageStatus is DataLoading) {
                   return const LoadingWidget();
                 }
@@ -172,25 +175,25 @@ class _ClientScreenState extends State<ClientScreen> {
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          child: BlocProvider(
-            create: (context) => clientBloc,
+          child: BlocProvider.value(
+            value: clientBloc,
             child: BlocListener<ClientBloc, ClientState>(
               listener: (context, state) {
-
-                if (state.pageStatus is DataSubmitted) {
-                  GlobalFunctions.instance.showInfoDialog(
+                if (state.createdClientModel!=null) {
+                  GlobalFunctions.instance.showCloseDialog(
                       title: AppLocalizations.of(context)!.patientCreated,
                       description: state.createdClientModel!.name,
                       svgPath: Assets.checkMark,
                       buttonBackground: _style.color(color: 'main_color'),
                       context: context,
                       onButtonPressed: () {
+                        print("onButtonPressed");
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
-                        context.read<ClientBloc>().add(LoadClientEvent());
+                        clientBloc.add(LoadClientEvent());
                       });
                 } else if (state.pageStatus is DataSubmitFailed) {
-                  GlobalFunctions.instance.showInfoDialog(
+                  GlobalFunctions.instance.showCloseDialog(
                       title: AppLocalizations.of(context)!.failure,
                       svgPath: Assets.checkMark,
                       buttonBackground: _style.color(color: 'main_color'),
@@ -437,18 +440,5 @@ class _ClientScreenState extends State<ClientScreen> {
         ),
       ],
     );
-  }
-}
-
-String getLocalizedTitle(BuildContext context, String title) {
-  switch (title) {
-    case 'morning':
-      return AppLocalizations.of(context)!.morning;
-    case 'afternoon':
-      return AppLocalizations.of(context)!.afternoon;
-    case 'evening':
-      return AppLocalizations.of(context)!.evening;
-    default:
-      return title;
   }
 }

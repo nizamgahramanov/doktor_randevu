@@ -38,3 +38,9 @@ class SendPushNotificationEvent extends BookingEvent {
     required this.heading,
   });
 }
+
+class CancelBookingEvent extends BookingEvent {
+  final int bookingId;
+
+  CancelBookingEvent({required this.bookingId});
+}

@@ -1,5 +1,6 @@
 import 'package:doktor_randevu/core/util/connectivity_service.dart';
 import 'package:doktor_randevu/core/util/style.dart';
+import 'package:doktor_randevu/feature/booking/domain/usecases/cancel_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/create_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/send_push_notification.dart';
 import 'package:doktor_randevu/feature/client/data/datasources/client_remote_data_source.dart';
@@ -40,11 +41,7 @@ final ctx = navigatorKey.currentContext;
 Future<void> init() async {
   //! Features - Login
   sl.registerFactory(
-    () => BookingBloc(
-      loadBooking: sl(),
-      bookCreating: sl(),
-      sendPushNotification: sl(),
-    ),
+    () => BookingBloc(loadBooking: sl(), bookCreating: sl(), sendPushNotification: sl(), cancelBooking: sl()),
   );
   // * Usecase
   sl.registerLazySingleton(
@@ -57,6 +54,10 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
     () => SendPushNotification(bookingRepository: sl()),
+  );
+
+  sl.registerLazySingleton(
+    () => CancelBooking(bookingRepository: sl()),
   );
   // * Repository
   sl.registerLazySingleton<BookingRepository>(

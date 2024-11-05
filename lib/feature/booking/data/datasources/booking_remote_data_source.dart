@@ -3,6 +3,7 @@
 import 'package:doktor_randevu/core/network/api_client.dart';
 import 'package:doktor_randevu/feature/booking/data/models/booking_creation_response_model.dart';
 import 'package:doktor_randevu/feature/booking/data/models/main_model.dart';
+import 'package:doktor_randevu/feature/booking/domain/usecases/cancel_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/create_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/load_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/send_push_notification.dart';
@@ -14,6 +15,7 @@ import '../models/datam_model.dart';
 abstract class BookingRemoteDataSource {
   Future<ApiResponse> getBooking(BookingParams params);
   Future<ApiResponse> createBooking(CreatingBookingParams params);
+  Future<ApiResponse> cancelBooking(CancelBookingParams params);
   Future<void> sendPushNotification(SendPushNotificationParams params);
 }
 
@@ -24,7 +26,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       'filter[upcoming_only]': params.upcomingOnly ? 1 : 0,
       if (params.chosenDate != null) 'filter[date]': params.chosenDate,
     };
-    final ApiResponse response = await ApiClient().getRequest(Urls.bookingList,
+    final ApiResponse response = await ApiClient().getRequest(Urls.booking,
         fromJson: (json) => MainModel<DatamModel>.fromJson(
               json,
               (itemJson) => DatamModel.fromJson(itemJson),
@@ -43,7 +45,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       'client_id': params.conclusion!.clientId,
     };
     final ApiResponse? response = await ApiClient().postRequest(
-      Urls.bookingList,
+      Urls.booking,
       fromJson: (data) => BookingCreateResponse.fromJson(data),
       parameters: queryParams,
     );
@@ -57,5 +59,16 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       params.message,
       params.userId
     );
+  }
+
+  @override
+  Future<ApiResponse> cancelBooking(CancelBookingParams params) async {
+    print("BookingRemoteDataSource");
+    print(params.id);
+    final ApiResponse? response = await ApiClient().deleteRequest(
+      "${Urls.booking}/${params.id}",
+      fromJson: (data) => DatamModel.fromJson(data),
+    );
+    return response!;
   }
 }

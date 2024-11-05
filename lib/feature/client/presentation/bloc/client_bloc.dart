@@ -10,6 +10,7 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
   }
 
   Future<void> _loadClient(LoadClientEvent event, emit) async {
+    print("_loadClient client");
     try {
       String? providerEmail = await LocalStorage.getProviderEmail();
       final apiResponse = await clientFetching.call(ClientFetchingParams(
@@ -40,8 +41,8 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
   }
 
   FutureOr<void> _createClient(CreateClientEvent event, Emitter<ClientState> emit) async {
+   print("create client");
     try {
-      emit(state.copyWith(pageStatus: DataSubmitting()));
 
       final clientModel = await clientCreating.call(ClientCreatingParams(clientModel: event.newClientModel));
       clientModel.fold(
@@ -51,7 +52,7 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
                 ),
               ), (clientModel) async {
         emit(
-          state.copyWith(pageStatus: DataSubmitted(), createdClientModel: clientModel.data),
+          state.copyWith(createdClientModel: clientModel.data),
         );
       });
     } on Error {

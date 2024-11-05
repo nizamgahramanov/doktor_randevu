@@ -26,4 +26,6 @@ class Assets {
   static const String refresh = '${_svgBasePath}refresh.svg';
   static const String profile = '${_svgBasePath}profile.svg';
   static const String splash = '${_pngBasePath}splash.png';
+  static const String edit = '${_svgBasePath}edit.svg';
+  static const String more = '${_svgBasePath}more.svg';
 }

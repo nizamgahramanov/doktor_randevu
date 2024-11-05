@@ -134,6 +134,22 @@ class ApiClient {
     }
   }
 
+  Future<ApiResponse<T>?> deleteRequest<T>(String endpoint, {Map<String, dynamic>? parameters, required T Function(dynamic) fromJson}) async {
+    try {
+      final response = await dioI.delete(endpoint, data: parameters);
+      return _handleResponse(response, fromJson);
+    } catch (e) {
+      if (e is DioException) {
+        return _handleError(e);
+      } else {
+        return ApiResponse<T>(
+          status: ApiResult.Error,
+          message: "Unknown error: $e",
+        );
+      }
+    }
+  }
+
   ApiResponse<T> _handleResponse<T>(Response response, T Function(dynamic) fromJson) {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return ApiResponse<T>(

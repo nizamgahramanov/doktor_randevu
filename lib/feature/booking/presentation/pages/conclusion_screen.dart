@@ -1,4 +1,3 @@
-
 import 'package:doktor_randevu/core/constant/assets.dart';
 import 'package:doktor_randevu/core/util/global_functions.dart';
 import 'package:doktor_randevu/core/widgets/custom_app_bar.dart';
@@ -36,7 +35,6 @@ class _ConclusionScreenState extends State<ConclusionScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     String initials = widget.conclusion.clientName != null ? widget.conclusion.clientName!.split(' ').map((e) => e[0].toUpperCase()).take(2).join() : '';
 
     return Scaffold(
@@ -54,6 +52,26 @@ class _ConclusionScreenState extends State<ConclusionScreen> {
             ),
           ),
         ),
+        actionButton: widget.conclusion.isBookInfo
+            ? [
+                /*InkWell(
+                  onTap: () {
+                    openEditModalBottomSheet();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0, top: 4, right: 16, bottom: 4),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _style.color(color: 'main_grey_color'),
+                      ),
+                      child: SvgPicture.asset(Assets.edit),
+                    ),
+                  ),
+                ),*/
+              ]
+            : [],
         showBackButton: true,
       ),
       body: SafeArea(
@@ -249,83 +267,118 @@ class _ConclusionScreenState extends State<ConclusionScreen> {
                           )
                         : const SizedBox.shrink(),
                     if (!widget.conclusion.isBookInfo)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 16),
-                          Text(
-                            AppLocalizations.of(context)!.bookNote.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'PublicSans',
-                              color: _style.color(color: 'secondary_text_color'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 16),
+                            Text(
+                              AppLocalizations.of(context)!.bookNote.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'PublicSans',
+                                color: _style.color(color: 'secondary_text_color'),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          CustomTextFormField(
-                            controller: bookNoteController,
-                            maxLines: 5,
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
-                            onFieldSubmitted: (String value) {},
-                          ),
-                          const SizedBox(height: 8),
-                        ],
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            CustomTextFormField(
+                              controller: bookNoteController,
+                              maxLines: 5,
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (String value) {},
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
             ),
             if (!widget.conclusion.isBookInfo)
-            BlocProvider(
-              create: (context) => bookingBloc,
-              child: BlocListener<BookingBloc, BookingState>(
-                listener: (context, state) {
-                  if (state.pageStatus is DataSubmitted) {
-                    GlobalFunctions.instance.showInfoDialog(
-                        title: AppLocalizations.of(context)!.randevuCreated,
-                        svgPath: Assets.checkMark,
-                        buttonBackground: _style.color(color: 'main_color'),
-                        context: context,
-                        onButtonPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => const IndexScreen(index: 1,)),
-                                (Route<dynamic> route) => false,
-                          );
-                        });
-                    bookingBloc.add(SendPushNotificationEvent(conclusion:widget.conclusion, heading:AppLocalizations.of(context)!.bookCreatedPushNotificationHeading));
-                  } else if (state.pageStatus is DataSubmitFailed) {
-                    GlobalFunctions.instance.showInfoDialog(
-                        title: AppLocalizations.of(context)!.failure,
-                        svgPath: Assets.checkMark,
-                        buttonBackground: _style.color(color: 'main_color'),
-                        context: context,
-                        onButtonPressed: () {
-                          Navigator.of(context).pop();
-                        });
-                  }
-                },
-                child: CustomElevatedButton(
-                  buttonText: AppLocalizations.of(context)!.finishAndCreate,
-                  backgroundColor: _style.color(color: bookingBloc.state.pageStatus is DataLoading?'deActive_indicator': 'main_color'),
-                  loadingIcon: bookingBloc.state.pageStatus is DataLoading?const LoadingWidget(size: 24,):null,
-                  onPressed: () {
-                    widget.conclusion.bookNote = bookNoteController.text;
-                    bookingBloc.add(CreateBookEvent(conclusion: widget.conclusion));
+              BlocProvider(
+                create: (context) => bookingBloc,
+                child: BlocListener<BookingBloc, BookingState>(
+                  listener: (context, state) {
+                    if (state.pageStatus is DataSubmitted) {
+                      GlobalFunctions.instance.showCloseDialog(
+                          title: AppLocalizations.of(context)!.randevuCreated,
+                          svgPath: Assets.checkMark,
+                          buttonBackground: _style.color(color: 'main_color'),
+                          context: context,
+                          onButtonPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const IndexScreen(
+                                        index: 1,
+                                      )),
+                              (Route<dynamic> route) => false,
+                            );
+                          });
+                      bookingBloc.add(SendPushNotificationEvent(conclusion: widget.conclusion, heading: AppLocalizations.of(context)!.bookCreatedPushNotificationHeading));
+                    } else if (state.pageStatus is DataSubmitFailed) {
+                      GlobalFunctions.instance.showCloseDialog(
+                          title: AppLocalizations.of(context)!.failure,
+                          svgPath: Assets.checkMark,
+                          buttonBackground: _style.color(color: 'main_color'),
+                          context: context,
+                          onButtonPressed: () {
+                            Navigator.of(context).pop();
+                          });
+                    }
                   },
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  borderRadius: 8,
+                  child: CustomElevatedButton(
+                    buttonText: AppLocalizations.of(context)!.finishAndCreate,
+                    backgroundColor: _style.color(color: bookingBloc.state.pageStatus is DataLoading ? 'deActive_indicator' : 'main_color'),
+                    loadingIcon: bookingBloc.state.pageStatus is DataLoading
+                        ? const LoadingWidget(
+                            size: 24,
+                          )
+                        : null,
+                    onPressed: () {
+                      widget.conclusion.bookNote = bookNoteController.text;
+                      bookingBloc.add(CreateBookEvent(conclusion: widget.conclusion));
+                    },
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    borderRadius: 8,
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         ),
       ),
+    );
+  }
+
+  void openEditModalBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: CustomElevatedButton(
+            margin: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 16,
+            ),
+            buttonText: AppLocalizations.of(context)!.create,
+            onPressed: () async {
+                bookingBloc.add(CancelBookingEvent(bookingId: widget.conclusion.bookingId!));
+            },
+            backgroundColor: _style.color(color: 'main_color'),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:doktor_randevu/feature/booking/domain/usecases/cancel_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/create_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/load_booking.dart';
 import 'package:doktor_randevu/feature/booking/domain/usecases/send_push_notification.dart';
@@ -38,6 +39,15 @@ class BookingRepositoryImpl extends BookingRepository {
     try {
        await bookingRemoteDataSource.sendPushNotification(params);
       return Right(ApiResponse(status: ApiResult.Success));
+    } on AppException {
+      return Left(AppException("Something else"));
+    }
+  }
+  @override
+  Future<Either<AppException, ApiResponse>> cancelBooking(CancelBookingParams params) async {
+    try {
+      final result = await bookingRemoteDataSource.cancelBooking(params);
+      return Right(result);
     } on AppException {
       return Left(AppException("Something else"));
     }
