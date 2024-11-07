@@ -69,6 +69,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       "${Urls.booking}/${params.id}",
       fromJson: (data) => DatamModel.fromJson(data),
     );
+    print(response);
     return response!;
   }
 }

@@ -52,9 +52,9 @@ class _ConclusionScreenState extends State<ConclusionScreen> {
             ),
           ),
         ),
-        actionButton: widget.conclusion.isBookInfo
+        actionButton: widget.conclusion.isBookInfo && widget.conclusion.status != 'canceled'
             ? [
-                /*InkWell(
+                InkWell(
                   onTap: () {
                     openEditModalBottomSheet();
                   },
@@ -69,7 +69,7 @@ class _ConclusionScreenState extends State<ConclusionScreen> {
                       child: SvgPicture.asset(Assets.edit),
                     ),
                   ),
-                ),*/
+                ),
               ]
             : [],
         showBackButton: true,
@@ -362,20 +362,72 @@ class _ConclusionScreenState extends State<ConclusionScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+        return Container(
+          color: Colors.transparent,
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+            left: 20,
+            right: 20,
           ),
-          child: CustomElevatedButton(
-            margin: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 16,
+          child: BlocProvider(
+            create: (context) =>bookingBloc,
+            child: BlocListener<BookingBloc, BookingState>(
+              listener: (context, state) {
+                if (state.cancelBookingResponse != null) {
+                  GlobalFunctions.instance.showCloseDialog(
+                      title: AppLocalizations.of(context)!.randevuCanceled,
+                      svgPath: Assets.checkMark,
+                      buttonBackground: _style.color(color: 'main_color'),
+                      context: context,
+                      onButtonPressed: () {
+                        print("onButtonPressed");
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const IndexScreen(
+                                index: 1,
+                              )),
+                              (Route<dynamic> route) => false,
+                        );
+                      });
+                } else if (state.cancelBookingResponse == null) {
+                  GlobalFunctions.instance.showCloseDialog(
+                      title: AppLocalizations.of(context)!.failure,
+                      svgPath: Assets.checkMark,
+                      buttonBackground: _style.color(color: 'main_color'),
+                      context: context,
+                      onButtonPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      });
+                } else if (state.pageStatus is DataSubmitting) {
+                  const Center(
+                    child: LoadingWidget(),
+                  );
+                }
+              },
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: CustomElevatedButton(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 16,
+                    ),
+                    buttonText: AppLocalizations.of(context)!.cancel,
+                    onPressed: () async {
+                      bookingBloc.add(CancelBookingEvent(bookingId: widget.conclusion.bookingId!));
+                    },
+                    backgroundColor: _style.color(color: 'main_color'),
+                  ),
+                ),
+              ),
             ),
-            buttonText: AppLocalizations.of(context)!.create,
-            onPressed: () async {
-                bookingBloc.add(CancelBookingEvent(bookingId: widget.conclusion.bookingId!));
-            },
-            backgroundColor: _style.color(color: 'main_color'),
           ),
         );
       },

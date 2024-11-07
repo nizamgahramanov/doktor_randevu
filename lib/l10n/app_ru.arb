@@ -61,5 +61,7 @@
 "logout":"Çıxış",
 "logoutAlertTitle":"Çıxış etməyə əminsiniz?",
 "logoutAlertDescription":"Siz hesabınızdan çıxış etdikdən sonra yenidən daxil olmalı olacaqsınız",
-"reject":"İmtina et"
+"reject":"İmtina et",
+"cancel":"Ləğv et",
+"randevuCanceled":"Randevu ləğv edilmişdir"
 }

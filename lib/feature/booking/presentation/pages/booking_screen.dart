@@ -153,6 +153,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 arguments: Conclusion(
                   bookingId: bookingInfo.id,
                   clientName: bookingInfo.clientName,
+                  status: bookingInfo.status,
                   clientPhone: bookingInfo.clientPhone,
                   serviceName: bookingInfo.serviceName,
                   serviceDuration: bookingInfo.serviceDuration,

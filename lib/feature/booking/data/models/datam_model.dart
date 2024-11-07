@@ -77,9 +77,9 @@ class DatamModel extends DatamEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      // 'provider': provider,
-      // 'service': service,
-      // 'client': client,
+      'provider': provider,
+      'service': service,
+      'client': client,
       'status': status,
       'membershipId': membershipId,
       'invoiceId': invoiceId,

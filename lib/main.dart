@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:doktor_randevu/core/di/injection.dart' as di;
 import 'package:doktor_randevu/core/util/certificates.dart';
 import 'package:doktor_randevu/core/util/screens.dart';
 import 'package:doktor_randevu/firebase_options.dart';
@@ -9,10 +10,9 @@ import 'package:doktor_randevu/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:doktor_randevu/core/di/injection.dart' as di;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'core/util/local_storage.dart';
 
@@ -59,7 +59,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: false,
       ),
       initialRoute: token != '' && token != null ? Screens.index : Screens.login,
-      // initialRoute: Screens.splash,
       onGenerateRoute: RouteGenerator.generateRoute,
       debugShowCheckedModeBanner: false,
     );

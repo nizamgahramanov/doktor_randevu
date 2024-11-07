@@ -8,6 +8,7 @@ class BookingState {
   final DateTime? selectedDay;
   final DateTime? focusedDay;
   final BookingCreateResponse? bookingCreateResponse;
+  final DatamModel? cancelBookingResponse;
 
 
   BookingState({
@@ -17,7 +18,8 @@ class BookingState {
     this.isExpanded = false,
     this.selectedDay,
     this.focusedDay,
-    this.bookingCreateResponse
+    this.bookingCreateResponse,
+    this.cancelBookingResponse
   });
 
   BookingState copyWith({
@@ -27,7 +29,8 @@ class BookingState {
     bool? isExpanded,
     DateTime? selectedDay,
     DateTime? focusedDay,
-    BookingCreateResponse? bookingCreateResponse
+    BookingCreateResponse? bookingCreateResponse,
+    DatamModel? cancelBookingResponse
   }) {
     return BookingState(
       pageStatus: pageStatus ?? this.pageStatus,
@@ -37,6 +40,7 @@ class BookingState {
       selectedDay: selectedDay ?? this.selectedDay,
       focusedDay: focusedDay ?? this.focusedDay,
       bookingCreateResponse: bookingCreateResponse ?? this.bookingCreateResponse,
+      cancelBookingResponse: cancelBookingResponse ?? this.cancelBookingResponse,
     );
   }
 }

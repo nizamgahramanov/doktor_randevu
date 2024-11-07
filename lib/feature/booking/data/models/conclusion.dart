@@ -2,6 +2,7 @@ class Conclusion {
   int? bookingId;
   int? clientId;
   int? providerId;
+  String? status;
   String? providerEmail;
   String? clientName;
   String? clientPhone;
@@ -22,6 +23,7 @@ class Conclusion {
     this.bookingId,
     this.clientId,
     this.providerId,
+    this.status,
     this.providerEmail,
     this.clientName,
     this.clientPhone,

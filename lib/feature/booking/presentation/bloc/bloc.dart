@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/widgets/page_status.dart';
 import '../../data/models/booking_date_info.dart';
 import '../../data/models/booking_info.dart';
+import '../../data/models/datam_model.dart';
 import '../../domain/usecases/load_booking.dart';
 
 part 'booking_bloc.dart';

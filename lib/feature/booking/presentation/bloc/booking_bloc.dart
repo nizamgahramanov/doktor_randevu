@@ -11,6 +11,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<DaySelectedEvent>(_daySelected);
     on<CreateBookEvent>(_createBook);
     on<SendPushNotificationEvent>(_sendPushNotification);
+    on<CancelBookingEvent>(_cancelBooking);
   }
 
   Future<void> _loadBooking(LoadBookingEvent event, emit) async {
@@ -109,15 +110,35 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   }
 
   FutureOr<void> _sendPushNotification(SendPushNotificationEvent event, Emitter<BookingState> emit) async {
-
-    await sendPushNotification.call(SendPushNotificationParams(
-      message: formattedMessage(event.conclusion),
-      userId: event.conclusion.providerId.toString(),
-      heading: event.heading
-    ));
+    await sendPushNotification.call(SendPushNotificationParams(message: formattedMessage(event.conclusion), userId: event.conclusion.providerId.toString(), heading: event.heading));
   }
 
   formattedMessage(Conclusion conclusion) {
     return '${conclusion.clientName} ${conclusion.date}, ${conclusion.startTime} tarixinə yazıldı.';
+  }
+
+  FutureOr<void> _cancelBooking(CancelBookingEvent event, Emitter<BookingState> emit) async {
+    try {
+      final cancelBookingResponse = await cancelBooking.call(CancelBookingParams(id: event.bookingId));
+      cancelBookingResponse.fold(
+        (failure) {
+          emit(
+            state.copyWith(
+              pageStatus: DataSubmitFailed(),
+            ),
+          );
+        },
+        (response) {
+          print("response");
+          print(response.data.toString());
+          print("response");
+          emit(
+            state.copyWith(pageStatus: DataSubmitted(), cancelBookingResponse: response.data),
+          );
+        },
+      );
+    } on Error {
+      print("ERROR in bloc");
+    }
   }
 }

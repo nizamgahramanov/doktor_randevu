@@ -192,7 +192,7 @@ class _ClientScreenState extends State<ClientScreen> {
                         Navigator.of(context).pop();
                         clientBloc.add(LoadClientEvent());
                       });
-                } else if (state.pageStatus is DataSubmitFailed) {
+                } else if (state.createdClientModel==null) {
                   GlobalFunctions.instance.showCloseDialog(
                       title: AppLocalizations.of(context)!.failure,
                       svgPath: Assets.checkMark,

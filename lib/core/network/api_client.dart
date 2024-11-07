@@ -137,6 +137,8 @@ class ApiClient {
   Future<ApiResponse<T>?> deleteRequest<T>(String endpoint, {Map<String, dynamic>? parameters, required T Function(dynamic) fromJson}) async {
     try {
       final response = await dioI.delete(endpoint, data: parameters);
+      print("RS");
+      print(response.data.toString());
       return _handleResponse(response, fromJson);
     } catch (e) {
       if (e is DioException) {
